@@ -24,8 +24,7 @@ namespace WebAppLibros.Libros
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            Libro_Acciones libroAccionesObjeto = Libro_Acciones.GetInstancia();
-            listaLibros = libroAccionesObjeto.Consulta_General();
+            listaLibros = Libro_Acciones.Consulta_General();
         }
     }
 }
