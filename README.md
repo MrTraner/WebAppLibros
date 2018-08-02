@@ -1,2 +1,2 @@
-# WebAppLibros_SinSQL
-Aplicación web utilizando ASP.NET Web Forms sin conexión a base de datos
+# WebAppLibros
+Aplicación web utilizando ASP.NET Web Forms con conexión a base de datos
