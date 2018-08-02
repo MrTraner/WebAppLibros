@@ -29,8 +29,7 @@ namespace WebAppLibros.Libros
                 {
                     int IdLibro = int.Parse(Request.QueryString.Get("id"));
 
-                    Libro_Acciones libroAccionesObjeto = Libro_Acciones.GetInstancia();
-                    libro = libroAccionesObjeto.Consultar_Id(IdLibro);
+                    libro = Libro_Acciones.Consultar_Id(IdLibro);
                 }
                 catch (Exception error)
                 {
