@@ -13,7 +13,7 @@ using System.Xml.Linq;
 namespace WebAppLibros.Modelo
 {
     /// <summary>
-    /// Modelo de la tabla "Libro" de SQL
+    /// Modelo de la tabla "Libros" de SQL
     /// </summary>
     public class Libro
     {
