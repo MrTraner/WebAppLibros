@@ -65,22 +65,113 @@ namespace WebAppLibros.Acciones
 
         public static Libro Consultar_Id(int id)
         {
-            return null;
+            Libro libro = new Libro();
+
+            try
+            {
+                con.Abrir();
+
+                string sql = "select * from Libros where IdLibro = @id";
+
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
+                comando.Parameters.AddWithValue("@id", id);
+
+                SqlDataReader reader = comando.ExecuteReader();
+
+                while (reader.Read() != null)
+                {
+                    libro.IdLibro = int.Parse(reader["IdLibro"].ToString());
+                    libro.Titulo = reader["Titulo"].ToString();
+                    libro.Autor = reader["Autor"].ToString();
+                    libro.Descripcion = reader["Descripcion"].ToString();
+                    libro.TotalPaginas = int.Parse(reader["TotalPaginas"].ToString());
+                    libro.Precio = double.Parse(reader["Precio"].ToString());
+                }
+            }
+            catch (Exception error)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
+            }
+
+            return libro;
         }
 
-        public static void Insertar(Libro libro)
+        public static int Insertar(Libro libro)
         {
-            
+            int resultado = 0;
+
+            try
+            {
+                con.Abrir();
+
+                string sql = "insert into Libros (Titulo, Autor, Descripcion, TotalPaginas, Precio) values (@titulo, @autor, @descripcion, @totalpaginas, @precio)";
+
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
+                comando.Parameters.AddWithValue("@titulo", libro.Titulo);
+                comando.Parameters.AddWithValue("@autor", libro.Autor);
+                comando.Parameters.AddWithValue("@descripcion", libro.Descripcion);
+                comando.Parameters.AddWithValue("@totalpaginas", libro.TotalPaginas);
+                comando.Parameters.AddWithValue("@precio", libro.Precio);
+
+                resultado = comando.ExecuteNonQuery();
+            }
+            catch (Exception error)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
+            }
+
+            return resultado;
         }
 
-        public static void Modificar(Libro libro)
+        public static int Modificar(Libro libro)
         {
+            int resultado = 0;
 
+            try
+            {
+                con.Abrir();
+
+                string sql = "update Libros set Titulo = @titulo, Autor = @autor, Descripcion = @descripcion, TotalPaginas = @totalpaginas, Precio = @precio where IdLibro = @id";
+
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
+                comando.Parameters.AddWithValue("@titulo", libro.Titulo);
+                comando.Parameters.AddWithValue("@autor", libro.Autor);
+                comando.Parameters.AddWithValue("@descripcion", libro.Descripcion);
+                comando.Parameters.AddWithValue("@totalpaginas", libro.TotalPaginas);
+                comando.Parameters.AddWithValue("@precio", libro.Precio);
+                comando.Parameters.AddWithValue("@id", libro.IdLibro);
+
+                resultado = comando.ExecuteNonQuery();
+            }
+            catch (Exception error)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
+            }
+
+            return resultado;
         }
 
-        public static void Eliminar(Libro libro)
+        public static int Eliminar(int id)
         {
+            int resultado = 0;
 
+            try
+            {
+                con.Abrir();
+
+                string sql = "delete from Libros where IdLibro = @id";
+
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
+                comando.Parameters.AddWithValue("@id", id);
+
+                resultado = comando.ExecuteNonQuery();
+            }
+            catch (Exception error)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
+            }
+
+            return resultado;
         }
     }
 }
