@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+using System;
 using System.Configuration;
 using System.Linq;
 using System.Web;
@@ -13,8 +12,8 @@ using System.Collections;
 using System.Collections.Generic;
 using WebAppLibros.Modelo;
 using WebAppLibros.BaseDeDatos;
-using MySql.Data;
-using MySql.Data.MySqlClient;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace WebAppLibros.Acciones
 {
@@ -30,11 +29,9 @@ namespace WebAppLibros.Acciones
                 con.Abrir();
 
                 string sentenciaSQL = "select * from Libros";
-                //SqlCommand comando = new SqlCommand(sentenciaSQL, con.GetConexion());
-                MySqlCommand comando = new MySqlCommand(sentenciaSQL, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sentenciaSQL, con.GetConexion());
 
-                //SqlDataReader dataReader = comando.ExecuteReader();
-                MySqlDataReader dataReader = comando.ExecuteReader();
+                SqlDataReader dataReader = comando.ExecuteReader();
 
                 while (dataReader.Read())
                 {
