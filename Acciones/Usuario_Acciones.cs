@@ -110,5 +110,85 @@ namespace WebAppLibros.Acciones
 
             return usuarios;
         }
+        
+        public static int Insertar(Usuario usuario)
+        {
+            int resultado = 0;
+
+            try
+            {
+                con.Abrir();
+
+                string sql = "insert into Usuarios (Nombre, Apellidos, Correo, Username, Password, Rol) values (@nombre, @apellidos, @correo, @username, @password, @rol)";
+
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
+                comando.Parameters.AddWithValue("@nombre", usuario.Nombre);
+                comando.Parameters.AddWithValue("@apellidos", usuario.Apellidos);
+                comando.Parameters.AddWithValue("@correo", usuario.Correo);
+                comando.Parameters.AddWithValue("@username", usuario.Username);
+                comando.Parameters.AddWithValue("@password", usuario.Password);
+                comando.Parameters.AddWithValue("@rol", usuario.Rol);
+
+                resultado = comando.ExecuteNonQuery();
+            }
+            catch (Exception error)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
+            }
+
+            return resultado;
+        }
+
+        public static int Modificar(Usuario usuario)
+        {
+            int resultado = 0;
+
+            try
+            {
+                con.Abrir();
+
+                string sql = "update Usuarios set Nombre = @nombre, Apellidos = @apellidos, Correo = @correo, Username = @username, Password = @password, Rol = @rol where IdUsuario = @id";
+
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
+                comando.Parameters.AddWithValue("@nombre", usuario.Nombre);
+                comando.Parameters.AddWithValue("@apellidos", usuario.Apellidos);
+                comando.Parameters.AddWithValue("@correo", usuario.Correo);
+                comando.Parameters.AddWithValue("@username", usuario.Username);
+                comando.Parameters.AddWithValue("@password", usuario.Password);
+                comando.Parameters.AddWithValue("@rol", usuario.Rol);
+                comando.Parameters.AddWithValue("@id", usuario.IdUsuario);
+
+                resultado = comando.ExecuteNonQuery();
+            }
+            catch (Exception error)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
+            }
+
+            return resultado;
+        }
+
+        public static int Eliminar(int id)
+        {
+            int resultado = 0;
+
+            try
+            {
+                con.Abrir();
+
+                string sql = "delete from Usuarios where IdUsuario = @id";
+
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
+                comando.Parameters.AddWithValue("@id", id);
+
+                resultado = comando.ExecuteNonQuery();
+            }
+            catch (Exception error)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
+            }
+
+            return resultado;
+        }
     }
 }
