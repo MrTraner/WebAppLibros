@@ -15,7 +15,7 @@ namespace WebAppLibros.BaseDeDatos
 
         public Conexion()
         {
-            DatosConexion = "Data Source=" + NombreServidor + ";Initial Catalog=" + NombreBaseDeDatos + "; Integrated Security=True;";
+            DatosConexion = "Data Source=" + NombreServidor + ";Initial Catalog=" + NombreBaseDeDatos + ";Integrated Security=True;";
             Con = new SqlConnection(DatosConexion);
         }
 
