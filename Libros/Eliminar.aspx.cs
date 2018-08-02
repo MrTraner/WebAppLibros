@@ -28,12 +28,20 @@ namespace WebAppLibros.Libros
                 {
                     int id = int.Parse(Request.Params.Get("id"));
 
-                    Libro_Acciones libroAccionesObjeto = Libro_Acciones.GetInstancia();
-                    libroAccionesObjeto.Eliminar(id);
+                    int resultado = Libro_Acciones.Eliminar(id);
 
-                    Response.Write("<script>alert('Libro eliminado correctamente');</script>");
+                    if (resultado > 0)
+                    {
+                        Response.Write("<script>alert('Libro eliminado correctamente');</script>");
 
-                    Response.Redirect("ConsultarLibros.aspx");
+                        Response.Redirect("ConsultarLibros.aspx");
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('No se ha eliminado el libro');</script>");
+
+                        Response.Redirect("ConsultarLibros.aspx");
+                    }
                 }
                 catch (Exception error)
                 {
