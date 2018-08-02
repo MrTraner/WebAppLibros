@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.Linq;
 using System.Web;
@@ -32,7 +32,6 @@ namespace WebAppLibros.Acciones
                 string sentenciaSQL = "select * from Usuarios where Username = @user and Password = @pass";
 
                 SqlCommand comando = new SqlCommand(sentenciaSQL, con.GetConexion());
-
 
                 comando.Parameters.AddWithValue("@user", usr);
                 comando.Parameters.AddWithValue("@pass", pwd);
@@ -77,11 +76,9 @@ namespace WebAppLibros.Acciones
                 con.Abrir();
 
                 string sentenciaSQL = "select * from Usuarios";
-                //SqlCommand comando = new SqlCommand(sentenciaSQL, con.GetConexion());
-                MySqlCommand comando = new MySqlCommand(sentenciaSQL, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sentenciaSQL, con.GetConexion());
 
-                //SqlDataReader dataReader = comando.ExecuteReader();
-                MySqlDataReader dataReader = comando.ExecuteReader();
+                SqlDataReader dataReader = comando.ExecuteReader();
 
                 while (dataReader.Read())
                 {
