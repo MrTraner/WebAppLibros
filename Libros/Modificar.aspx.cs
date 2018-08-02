@@ -35,12 +35,20 @@ namespace WebAppLibros.Libros
                     libro.TotalPaginas = int.Parse(Request.Params.Get("TotalPaginas"));
                     libro.Precio = double.Parse(Request.Params.Get("Precio"));
 
-                    Libro_Acciones libroAccionesObjeto = Libro_Acciones.GetInstancia();
-                    libroAccionesObjeto.Modificar(libro);
+                    int resultado = Libro_Acciones.Modificar(libro);
 
-                    Response.Write("<script>alert('Libro modificado correctamente');</script>");
+                    if (resultado > 0)
+                    {
+                        Response.Write("<script>alert('Libro modificado correctamente');</script>");
 
-                    Response.Redirect("ConsultarLibros.aspx");
+                        Response.Redirect("ConsultarLibros.aspx");
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('No se ha modificado el libro');</script>");
+
+                        Response.Redirect("ConsultarLibros.aspx");
+                    }
                 }
                 catch (Exception error)
                 {
