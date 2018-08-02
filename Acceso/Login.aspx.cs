@@ -23,17 +23,14 @@ namespace WebAppLibros.Acceso
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Usuario_Acciones usuarioAccionesObjeto = Usuario_Acciones.GetInstancia();
-
             if (Request.Params.Get("Usuario") != null && Request.Params.Get("Contraseña") != null)
             {
                 string username = Request.Params.Get("Usuario");
                 string password = Request.Params.Get("Contraseña");
 
-                Response.Write("<script>alert('se ha enviado el formulario por post');</script>");
-                Response.Write("<script>alert('datos recibidos: " + username + ", " + password + "');</script>");
+                //Response.Write("<script>alert('se ha enviado el formulario por post');</script>");
+                //Response.Write("<script>alert('datos recibidos: " + username + ", " + password + "');</script>");
 
-                //Usuario usuario = usuarioAccionesObjeto.Login(username, password);
                 Usuario usuario = Usuario_Acciones.Login(username, password);
 
                 if (usuario != null)
