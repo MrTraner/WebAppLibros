@@ -1,8 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebAppLibros._Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebAppLibros.Default" %>
 
 <%@ Import Namespace="WebAppLibros.Modelo" %>
 
 <!DOCTYPE html>
+
 <html lang="es-mx">
 <head runat="server">
     <meta charset="utf-8">
@@ -27,14 +28,22 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">                
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active"><a class="nav-link" href="Default.aspx">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Acceso/Login.aspx">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Libros/InsertarLibro.aspx">Insertar libro</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Libros/ConsultarLibros.aspx">Consultar libros</a></li>
+                        <% if (Session["usuario"] != null) { %>
+                            <% Usuario usuario = (Usuario)Session["usuario"]; %>
+                            <% if (usuario.Rol == "ADMIN") { %>
+                                <li class="nav-item"><a class="nav-link" href="Libros/InsertarLibro.aspx">Insertar libro</a></li>
+                                <li class="nav-item"><a class="nav-link" href="Libros/ConsultarLibros.aspx">Consultar libros</a></li>
+                            <% } else { %>
+                                <li class="nav-item"><a class="nav-link" href="Libros/ConsultarLibros.aspx">Consultar libros</a></li>
+                            <% } %>
+                        <% } %>
                     </ul>
                     
                     <% if (Session["usuario"] == null) { %>
                         <a class="btn btn-outline-success" href="Acceso/Login.aspx">Iniciar sesión</a>
                     <% } else { %>
+                    <% Usuario usuario = (Usuario)Session["usuario"]; %>
+                        <a class="navbar-brand" href="Cuenta/Perfil.aspx"><%=usuario.Nombre + " " + usuario.Apellidos %></a>
                         <a class="btn btn-outline-danger" href="Acceso/CerrarSesion.aspx">Cerrar sesión</a>
                     <% } %>
                 </div>
@@ -44,35 +53,16 @@
                 <h1 class="text-center"><% Response.Write("Titulo: " + Titulo); %></h1>
             </div>
             
-            <div class="container">
-                <div class="table-responsive">
-                    <table class="table table-striped text-center">
-                        <tr>
-                            <th>IdLibro</th>
-                            <th>Titulo</th>
-                            <th>Autor</th>
-                            <th>Descripcion</th>
-                            <th>TotalPaginas</th>
-                            <th>Precio</th>
-                            <th>Acciones</th>
-                        </tr>
-                        <% foreach (Libro libro in listaLibros) { %>
-                           <tr>
-                                <td><%=libro.IdLibro%></td>
-                                <td><%=libro.Titulo%></td>
-                                <td><%=libro.Autor%></td>
-                                <td><%=libro.Descripcion%></td>
-                                <td><%=libro.TotalPaginas%></td>
-                                <td><%=libro.Precio%></td>
-                                <td>
-                                    <a class="btn btn-primary" href="Libros/ModificarLibro.aspx?id=<%=libro.IdLibro%>">Modificar</a>
-                                    <a class="btn btn-danger" href="Libros/Eliminar.aspx?id=<%=libro.IdLibro%>">Eliminar</a>
-                                </td>
-                           </tr>
-                        <% } %>
-                    </table>
-                </div>
-            </div>
+            <main role="main">
+			    <div class="jumbotron">
+				    <div class="container">
+					    <h1 class="display-3">Bienvenidos a {Nombre Proyecto}</h1>
+                        <hr>
+					    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta eveniet error amet beatae dolorem, voluptate quos. Fuga quia, necessitatibus, eius, beatae aliquid veritatis optio incidunt ducimus sit mollitia provident quo.</p>
+					    <% if (Session["usuario"] == null) { %><p><a class="btn btn-primary btn-lg" href="Acceso/Registro.aspx" role="button">Regístrate »</a></p><% } %>
+				    </div>
+			    </div>
+	        </main>
         </div>
     </form>
 
