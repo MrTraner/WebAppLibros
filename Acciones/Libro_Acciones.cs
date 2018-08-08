@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using MySql.Data;
-using MySql.Data.MySqlClient;
+using System.Data;
+using System.Data.SqlClient;
 
 using WebAppLibros.BaseDeDatos;
 using WebAppLibros.Modelo;
@@ -25,9 +25,9 @@ namespace WebAppLibros.Acciones
 
                 string sql = "select * from Libros";
 
-                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
 
-                MySqlDataReader reader = comando.ExecuteReader();
+                SqlDataReader reader = comando.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -68,10 +68,10 @@ namespace WebAppLibros.Acciones
 
                 string sql = "select * from Libros where IdLibro = @id";
 
-                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
                 comando.Parameters.AddWithValue("@id", id);
 
-                MySqlDataReader reader = comando.ExecuteReader();
+                SqlDataReader reader = comando.ExecuteReader();
 
                 while (reader.Read())
                 {
@@ -109,7 +109,7 @@ namespace WebAppLibros.Acciones
 
                 string sql = "insert into Libros (Titulo, Autor, Descripcion, TotalPaginas, Precio) values (@titulo, @autor, @descripcion, @totalpaginas, @precio)";
 
-                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
                 comando.Parameters.AddWithValue("@titulo", libro.Titulo);
                 comando.Parameters.AddWithValue("@autor", libro.Autor);
                 comando.Parameters.AddWithValue("@descripcion", libro.Descripcion);
@@ -142,7 +142,7 @@ namespace WebAppLibros.Acciones
 
                 string sql = "update Libros set Titulo = @titulo, Autor = @autor, Descripcion = @descripcion, TotalPaginas = @totalpaginas, Precio = @precio where IdLibro = @id";
 
-                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
                 comando.Parameters.AddWithValue("@titulo", libro.Titulo);
                 comando.Parameters.AddWithValue("@autor", libro.Autor);
                 comando.Parameters.AddWithValue("@descripcion", libro.Descripcion);
@@ -176,7 +176,7 @@ namespace WebAppLibros.Acciones
 
                 string sql = "delete from Libros where IdLibro = @id";
 
-                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
                 comando.Parameters.AddWithValue("@id", id);
 
                 resultado = comando.ExecuteNonQuery();
