@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using MySql.Data;
-using MySql.Data.MySqlClient;
+using System.Data;
+using System.Data.SqlClient;
 
 using WebAppLibros.BaseDeDatos;
 using WebAppLibros.Modelo;
@@ -25,11 +25,11 @@ namespace WebAppLibros.Acciones
 
                 string sql = "select * from Usuarios where Username = @usr and Password = @pwd";
 
-                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
                 comando.Parameters.AddWithValue("@usr", usr);
                 comando.Parameters.AddWithValue("@pwd", pwd);
 
-                MySqlDataReader reader = comando.ExecuteReader();
+                SqlDataReader reader = comando.ExecuteReader();
 
                 while(reader.Read())
                 {
@@ -69,9 +69,9 @@ namespace WebAppLibros.Acciones
 
                 string sql = "select * from Usuarios";
 
-                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
 
-                MySqlDataReader reader = comando.ExecuteReader();
+                SqlDataReader reader = comando.ExecuteReader();
 
                 while(reader.Read())
                 {
@@ -113,7 +113,7 @@ namespace WebAppLibros.Acciones
 
                 string sql = "insert into Usuarios (Nombre, Apellidos, Correo, Username, Password, Rol) values (@nombre, @apellidos, @correo, @username, @password, @rol)";
 
-                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
                 comando.Parameters.AddWithValue("@nombre", usuario.Nombre);
                 comando.Parameters.AddWithValue("@apellidos", usuario.Apellidos);
                 comando.Parameters.AddWithValue("@correo", usuario.Correo);
@@ -147,7 +147,7 @@ namespace WebAppLibros.Acciones
 
                 string sql = "update Usuarios set Nombre = @nombre, Apellidos = @apellidos, Correo = @correo, Username = @username, Password = @password, Rol = @rol where IdUsuario = @id";
 
-                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
                 comando.Parameters.AddWithValue("@nombre", usuario.Nombre);
                 comando.Parameters.AddWithValue("@apellidos", usuario.Apellidos);
                 comando.Parameters.AddWithValue("@correo", usuario.Correo);
@@ -182,7 +182,7 @@ namespace WebAppLibros.Acciones
 
                 string sql = "delete from Usuarios where IdUsuario = @id";
 
-                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
+                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
                 comando.Parameters.AddWithValue("@id", id);
 
                 resultado = comando.ExecuteNonQuery();
