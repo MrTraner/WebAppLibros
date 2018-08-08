@@ -1,19 +1,13 @@
-using System;
-using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-using System.Collections;
-using System.Collections.Generic;
-using WebAppLibros.Modelo;
+
+using MySql.Data;
+using MySql.Data.MySqlClient;
+
 using WebAppLibros.BaseDeDatos;
-using System.Data;
-using System.Data.SqlClient;
+using WebAppLibros.Modelo;
 
 namespace WebAppLibros.Acciones
 {
@@ -29,35 +23,33 @@ namespace WebAppLibros.Acciones
             {
                 con.Abrir();
 
-                string sentenciaSQL = "select * from Usuarios where Username = @user and Password = @pass";
+                string sql = "select * from Usuarios where Username = @usr and Password = @pwd";
 
-                SqlCommand comando = new SqlCommand(sentenciaSQL, con.GetConexion());
+                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
+                comando.Parameters.AddWithValue("@usr", usr);
+                comando.Parameters.AddWithValue("@pwd", pwd);
 
-                comando.Parameters.AddWithValue("@user", usr);
-                comando.Parameters.AddWithValue("@pass", pwd);
+                MySqlDataReader reader = comando.ExecuteReader();
 
-                SqlDataReader dataReader = comando.ExecuteReader();
-
-                while (dataReader.Read())
+                while(reader.Read())
                 {
                     usuario = new Usuario();
-                    usuario.IdUsuario = int.Parse(dataReader["IdUsuario"].ToString());
-                    usuario.Nombre = dataReader["Nombre"].ToString();
-                    usuario.Apellidos = dataReader["Apellidos"].ToString();
-                    usuario.Correo = dataReader["Correo"].ToString();
-                    usuario.Username = dataReader["Username"].ToString();
-                    usuario.Password = dataReader["Password"].ToString();
-                    usuario.Rol = dataReader["Rol"].ToString();
+                    usuario.IdUsuario = int.Parse(reader["IdUsuario"].ToString());
+                    usuario.Nombre = reader["Nombre"].ToString();
+                    usuario.Apellidos = reader["Apellidos"].ToString();
+                    usuario.Correo = reader["Correo"].ToString();
+                    usuario.Username = reader["Username"].ToString();
+                    usuario.Password = reader["Password"].ToString();
+                    usuario.Rol = reader["Rol"].ToString();
                 }
 
-                dataReader.Close();
+                reader.Close();
 
                 con.Cerrar();
             }
-            catch (Exception ex)
+            catch (Exception error)
             {
-                System.Diagnostics.Debug.WriteLine(ex.ToString());
-                return usuario;
+                System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
             }
             finally
             {
@@ -75,33 +67,33 @@ namespace WebAppLibros.Acciones
             {
                 con.Abrir();
 
-                string sentenciaSQL = "select * from Usuarios";
-                SqlCommand comando = new SqlCommand(sentenciaSQL, con.GetConexion());
+                string sql = "select * from Usuarios";
 
-                SqlDataReader dataReader = comando.ExecuteReader();
+                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
 
-                while (dataReader.Read())
+                MySqlDataReader reader = comando.ExecuteReader();
+
+                while(reader.Read())
                 {
                     Usuario usuario = new Usuario();
-                    usuario.IdUsuario = int.Parse(dataReader["IdUsuario"].ToString());
-                    usuario.Nombre = dataReader["Nombre"].ToString();
-                    usuario.Apellidos = dataReader["Apellidos"].ToString();
-                    usuario.Correo = dataReader["Correo"].ToString();
-                    usuario.Username = dataReader["Username"].ToString();
-                    usuario.Password = dataReader["Password"].ToString();
-                    usuario.Rol = dataReader["Rol"].ToString();
+                    usuario.IdUsuario = int.Parse(reader["IdUsuario"].ToString());
+                    usuario.Nombre = reader["Nombre"].ToString();
+                    usuario.Apellidos = reader["Apellidos"].ToString();
+                    usuario.Correo = reader["Correo"].ToString();
+                    usuario.Username = reader["Username"].ToString();
+                    usuario.Password = reader["Password"].ToString();
+                    usuario.Rol = reader["Rol"].ToString();
 
                     usuarios.Add(usuario);
                 }
 
-                dataReader.Close();
+                reader.Close();
 
                 con.Cerrar();
             }
-            catch (Exception ex)
+            catch (Exception error)
             {
-                System.Diagnostics.Debug.WriteLine(ex.ToString());
-                return usuarios;
+                System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
             }
             finally
             {
@@ -110,7 +102,7 @@ namespace WebAppLibros.Acciones
 
             return usuarios;
         }
-        
+
         public static int Insertar(Usuario usuario)
         {
             int resultado = 0;
@@ -121,7 +113,7 @@ namespace WebAppLibros.Acciones
 
                 string sql = "insert into Usuarios (Nombre, Apellidos, Correo, Username, Password, Rol) values (@nombre, @apellidos, @correo, @username, @password, @rol)";
 
-                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
+                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
                 comando.Parameters.AddWithValue("@nombre", usuario.Nombre);
                 comando.Parameters.AddWithValue("@apellidos", usuario.Apellidos);
                 comando.Parameters.AddWithValue("@correo", usuario.Correo);
@@ -130,10 +122,16 @@ namespace WebAppLibros.Acciones
                 comando.Parameters.AddWithValue("@rol", usuario.Rol);
 
                 resultado = comando.ExecuteNonQuery();
+
+                con.Cerrar();
             }
             catch (Exception error)
             {
                 System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
+            }
+            finally
+            {
+                con.Cerrar();
             }
 
             return resultado;
@@ -149,7 +147,7 @@ namespace WebAppLibros.Acciones
 
                 string sql = "update Usuarios set Nombre = @nombre, Apellidos = @apellidos, Correo = @correo, Username = @username, Password = @password, Rol = @rol where IdUsuario = @id";
 
-                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
+                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
                 comando.Parameters.AddWithValue("@nombre", usuario.Nombre);
                 comando.Parameters.AddWithValue("@apellidos", usuario.Apellidos);
                 comando.Parameters.AddWithValue("@correo", usuario.Correo);
@@ -159,10 +157,16 @@ namespace WebAppLibros.Acciones
                 comando.Parameters.AddWithValue("@id", usuario.IdUsuario);
 
                 resultado = comando.ExecuteNonQuery();
+
+                con.Cerrar();
             }
             catch (Exception error)
             {
                 System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
+            }
+            finally
+            {
+                con.Cerrar();
             }
 
             return resultado;
@@ -178,14 +182,20 @@ namespace WebAppLibros.Acciones
 
                 string sql = "delete from Usuarios where IdUsuario = @id";
 
-                SqlCommand comando = new SqlCommand(sql, con.GetConexion());
+                MySqlCommand comando = new MySqlCommand(sql, con.GetConexion());
                 comando.Parameters.AddWithValue("@id", id);
 
                 resultado = comando.ExecuteNonQuery();
+
+                con.Cerrar();
             }
             catch (Exception error)
             {
                 System.Diagnostics.Debug.WriteLine("Error: " + error.ToString());
+            }
+            finally
+            {
+                con.Cerrar();
             }
 
             return resultado;
