@@ -10,7 +10,7 @@
 namespace WebAppLibros.Acceso {
     
     
-    public partial class Login {
+    public partial class Registro {
         
         /// <summary>
         /// Control Form1.
@@ -20,5 +20,14 @@ namespace WebAppLibros.Acceso {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
+        
+        /// <summary>
+        /// Control btnRegistrar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRegistrar;
     }
 }

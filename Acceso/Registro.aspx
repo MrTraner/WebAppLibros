@@ -1,9 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="WebAppLibros.Acceso.Login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Registro.aspx.cs" Inherits="WebAppLibros.Acceso.Registro" %>
 
 <%@ Import Namespace="WebAppLibros.Modelo" %>
 
 <%
-    if(Session["usuario"] != null)
+    if (Session["usuario"] != null)
     {
         Response.Redirect("../Default.aspx");
     }
@@ -48,6 +48,8 @@
                 <% if (Session["usuario"] == null) { %>
                     <a class="btn btn-outline-success" href="Login.aspx">Iniciar sesión</a>
                 <% } else { %>
+                <% Usuario usuario = (Usuario)Session["usuario"]; %>
+                    <a class="navbar-brand" href="../Cuenta/Perfil.aspx"><%=usuario.Nombre + " " + usuario.Apellidos %></a>
                     <a class="btn btn-outline-danger" href="CerrarSesion.aspx">Cerrar sesión</a>
                 <% } %>
             </div>
@@ -58,15 +60,24 @@
         </div>
         
         <div class="container">
-            <form id="Form1" runat="server" method="post">
-                <label>Usuario:</label>
-                <input class="form-control" type="text" name="Usuario" placeholder="Nombre de usuario" required />
+            <form id="Form1" runat="server" method="post" >
+                <label>Nombre:</label>
+                <input class="form-control" type="text" name="Nombre" required />
+                <br />
+                <label>Apellidos:</label>
+                <input class="form-control" type="text" name="Apellidos" required />
+                <br />
+                <label>Correo:</label>
+                <input class="form-control" type="text" name="Correo" required />
+                <br />
+                <label>Nombre de usuario:</label>
+                <input class="form-control" type="text" name="Username" required />
                 <br />
                 <label>Contraseña:</label>
-                <input class="form-control" type="password" name="Contraseña" placeholder="Contraseña" required />
+                <input class="form-control" type="password" name="Password" required />
                 <br />
                 <br />
-                <button class="btn btn-primary btn-block" type="submit">Iniciar sesión</button>
+                <asp:Button ID="btnRegistrar" CssClass="btn btn-primary btn-block" Text="Registrar" runat="server"></asp:Button>
             </form>
         </div>
     </div>
