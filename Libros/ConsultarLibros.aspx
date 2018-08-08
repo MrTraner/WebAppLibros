@@ -7,18 +7,10 @@
     {
         Response.Redirect("../Acceso/Login.aspx");
     }
-    else
-    {
-        Usuario usuario = (Usuario)Session["usuario"];
-
-        if (usuario.Rol != "ADMIN")
-        {
-            Response.Redirect("../Default.aspx");
-        }
-    }
 %>
 
 <!DOCTYPE html>
+
 <html lang="es-mx">
 <head runat="server">
     <meta charset="utf-8">
@@ -43,15 +35,21 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">                
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item"><a class="nav-link" href="../Default.aspx">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="../Acceso/Login.aspx">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="../Libros/InsertarLibro.aspx">Insertar libro</a></li>
-                        <li class="nav-item active"><a class="nav-link" href="../Libros/ConsultarLibros.aspx">Consultar libros</a></li>
+                        <% if (Session["usuario"] != null) { %>
+                            <% if (usuario.Rol == "ADMIN") { %>
+                                <li class="nav-item"><a class="nav-link" href="InsertarLibro.aspx">Insertar libro</a></li>
+                                <li class="nav-item"><a class="nav-link" href="ConsultarLibros.aspx">Consultar libros</a></li>
+                            <% } else { %>
+                                <li class="nav-item"><a class="nav-link" href="ConsultarLibros.aspx">Consultar libros</a></li>
+                            <% } %>
+                        <% } %>
                     </ul>
                     
                     <% if (Session["usuario"] == null) { %>
-                        <a class="btn btn-outline-success" href="Acceso/Login.aspx">Iniciar sesión</a>
+                        <a class="btn btn-outline-success" href="../Acceso/Login.aspx">Iniciar sesión</a>
                     <% } else { %>
-                        <a class="btn btn-outline-danger" href="Acceso/CerrarSesion.aspx">Cerrar sesión</a>
+                        <a class="navbar-brand" href="../Cuenta/Perfil.aspx"><%=usuario.Nombre + " " + usuario.Apellidos %></a>
+                        <a class="btn btn-outline-danger" href="../Acceso/CerrarSesion.aspx">Cerrar sesión</a>
                     <% } %>
                 </div>
             </nav>
@@ -70,21 +68,23 @@
                             <th>Descripcion</th>
                             <th>TotalPaginas</th>
                             <th>Precio</th>
-                            <th>Acciones</th>
+                            <% if (usuario.Rol == "ADMIN") { %><th>Acciones</th><% } %>
                         </tr>
                         <% foreach (Libro libro in listaLibros) { %>
-                           <tr>
+                            <tr>
                                 <td><%=libro.IdLibro%></td>
                                 <td><%=libro.Titulo%></td>
                                 <td><%=libro.Autor%></td>
                                 <td><%=libro.Descripcion%></td>
                                 <td><%=libro.TotalPaginas%></td>
                                 <td><%=libro.Precio%></td>
+                                <% if (usuario.Rol == "ADMIN") { %>
                                 <td>
                                     <a class="btn btn-primary" href="ModificarLibro.aspx?id=<%=libro.IdLibro%>">Modificar</a>
                                     <a class="btn btn-danger" href="Eliminar.aspx?id=<%=libro.IdLibro%>">Eliminar</a>
                                 </td>
-                           </tr>
+                                <% } %>
+                            </tr>
                         <% } %>
                     </table>
                 </div>

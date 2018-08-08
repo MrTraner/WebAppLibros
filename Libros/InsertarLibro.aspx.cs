@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Configuration;
-using System.Data;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
 
-using WebAppLibros.Acciones;
 using WebAppLibros.Modelo;
+using WebAppLibros.Acciones;
 
 namespace WebAppLibros.Libros
 {
@@ -22,10 +16,10 @@ namespace WebAppLibros.Libros
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            btnInsertar.Click += new EventHandler(btnInsertar_Click);
+            btnInsertar.Click += new EventHandler(BtnInsertar_Click);
         }
 
-        void btnInsertar_Click(object sender, EventArgs e)
+        private void BtnInsertar_Click(object sender, EventArgs e)
         {
             //Response.Write("<script>alert('Libro insertado');</script>");
             if (Request.Params.Get("Titulo") != "" && Request.Params.Get("Autor") != "" && Request.Params.Get("Descripcion") != "" && Request.Params.Get("TotalPaginas") != "" && Request.Params.Get("Precio") != "")

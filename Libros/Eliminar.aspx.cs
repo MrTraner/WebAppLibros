@@ -1,28 +1,20 @@
 ﻿using System;
-using System.Collections;
-using System.Configuration;
-using System.Data;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
 
-using WebAppLibros.Acciones;
 using WebAppLibros.Modelo;
+using WebAppLibros.Acciones;
 
 namespace WebAppLibros.Libros
 {
     public partial class Eliminar : System.Web.UI.Page
     {
-        public Libro libro;
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.Params.Get("id") != null)
+            if (Request.Params.Get("id") != null && Request.Params.Get("id") != "")
             {
                 try
                 {

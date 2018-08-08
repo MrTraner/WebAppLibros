@@ -10,7 +10,6 @@
     else
     {
         Usuario usuario = (Usuario)Session["usuario"];
-
         if (usuario.Rol != "ADMIN")
         {
             Response.Redirect("../Default.aspx");
@@ -19,11 +18,12 @@
 %>
 
 <!DOCTYPE html>
+
 <html lang="es-mx">
 <head runat="server">
     <title>Eliminar</title>
 </head>
 <body>
-    
+
 </body>
 </html>

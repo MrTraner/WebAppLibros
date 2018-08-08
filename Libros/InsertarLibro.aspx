@@ -10,7 +10,6 @@
     else
     {
         Usuario usuario = (Usuario)Session["usuario"];
-
         if (usuario.Rol != "ADMIN")
         {
             Response.Redirect("../Default.aspx");
@@ -19,6 +18,7 @@
 %>
 
 <!DOCTYPE html>
+
 <html lang="es-mx">
 <head runat="server">
     <meta charset="utf-8">
@@ -42,15 +42,23 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">                
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link" href="../Default.aspx">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../Acceso/Login.aspx">Login</a></li>
-                    <li class="nav-item active"><a class="nav-link" href="InsertarLibro.aspx">Insertar libro</a></li>
-                    <li class="nav-item"><a class="nav-link" href="ConsultarLibros.aspx">Consultar libros</a></li>
+                    <% if (Session["usuario"] != null) { %>
+                        <% Usuario usuario = (Usuario)Session["usuario"]; %>
+                        <% if (usuario.Rol == "ADMIN") { %>
+                            <li class="nav-item"><a class="nav-link" href="InsertarLibro.aspx">Insertar libro</a></li>
+                            <li class="nav-item"><a class="nav-link" href="ConsultarLibros.aspx">Consultar libros</a></li>
+                        <% } else { %>
+                            <li class="nav-item"><a class="nav-link" href="ConsultarLibros.aspx">Consultar libros</a></li>
+                        <% } %>
+                    <% } %>
                 </ul>
                     
                 <% if (Session["usuario"] == null) { %>
-                    <a class="btn btn-outline-success" href="Acceso/Login.aspx">Iniciar sesión</a>
+                    <a class="btn btn-outline-success" href="../Acceso/Login.aspx">Iniciar sesión</a>
                 <% } else { %>
-                    <a class="btn btn-outline-danger" href="Acceso/CerrarSesion.aspx">Cerrar sesión</a>
+                <% Usuario usuario = (Usuario)Session["usuario"]; %>
+                    <a class="navbar-brand" href="../Cuenta/Perfil.aspx"><%=usuario.Nombre + " " + usuario.Apellidos %></a>
+                    <a class="btn btn-outline-danger" href="../Acceso/CerrarSesion.aspx">Cerrar sesión</a>
                 <% } %>
             </div>
         </nav>
@@ -74,7 +82,7 @@
                 <input class="form-control" type="number" name="TotalPaginas" required />
                 <br />
                 <label>Precio:</label>
-                <input class="form-control" type="text" name="Precio" required /
+                <input class="form-control" type="text" name="Precio" required />
                 <br />
                 <br />
                 <asp:Button ID="btnInsertar" CssClass="btn btn-primary btn-block" Text="Insertar" runat="server"></asp:Button>
